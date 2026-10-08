@@ -1,0 +1,10 @@
+# В репозитории всё хранится с LF. Без этого Windows-машины коммитят CRLF,
+# и git ругается на каждый файл, а CI на Ubuntu видит лишние изменения.
+* text=auto eol=lf
+
+# Бинарные файлы не трогать.
+*.png binary
+*.jpg binary
+*.pdf binary
+*.ico binary
+*.webp binary
