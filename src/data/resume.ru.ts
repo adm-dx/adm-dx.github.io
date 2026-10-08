@@ -16,13 +16,10 @@ export const resumeRu: ResumeData = {
       'Занятость: полная, частичная или проектная работа',
       'Только удалённо, без командировок',
     ],
+    // Почты здесь нет намеренно: страница публичная и её собирают спам-боты.
+    // Адрес остаётся в Resume.pdf — туда боты лезут редко.
+    // TODO: добавить Telegram и LinkedIn, когда будут ники.
     contacts: [
-      {
-        label: 'adm.dx@outlook.com',
-        href: 'mailto:adm.dx@outlook.com',
-        icon: 'mail',
-        note: 'предпочтительно',
-      },
       {
         label: 'github.com/adm-dx',
         href: 'https://github.com/adm-dx',

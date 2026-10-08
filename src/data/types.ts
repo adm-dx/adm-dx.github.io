@@ -15,7 +15,15 @@ export interface Contact {
   note?: string;
 }
 
-export type IconName = 'mail' | 'github' | 'link' | 'download' | 'sun' | 'moon';
+export type IconName =
+  | 'mail'
+  | 'github'
+  | 'telegram'
+  | 'linkedin'
+  | 'link'
+  | 'download'
+  | 'sun'
+  | 'moon';
 
 export interface Profile {
   name: string;

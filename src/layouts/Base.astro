@@ -18,14 +18,19 @@ const canonical = absoluteUrl(data.path, site);
 const ogImage = absoluteUrl('og.png', site);
 
 // JSON-LD: помогает поисковикам и агрегаторам понять, что страница — визитка человека.
+//
+// Почты здесь нет намеренно: страница публичная, а JSON-LD — первое, что парсят
+// сборщики адресов. Контакты берутся из profile.contacts, то есть ровно то, что
+// и так видно на странице.
 const personSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: profile.name,
   jobTitle: profile.title,
-  email: 'adm.dx@outlook.com',
   url: canonical,
-  sameAs: ['https://github.com/adm-dx'],
+  sameAs: profile.contacts
+    .filter((contact) => contact.href.startsWith('https://'))
+    .map((contact) => contact.href),
   knowsLanguage: data.languages.map((item) => item.language),
 };
 ---
