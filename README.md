@@ -61,11 +61,11 @@ public/           Resume.pdf, favicon.svg, robots.txt
 ## Деплой
 
 Workflow `.github/workflows/deploy.yml` собирает сайт и публикует на GitHub Pages при каждом
-пуше в `master`.
+пуше в `main`.
 
 Что нужно сделать один раз:
 
-1. Создать репозиторий на GitHub и запушить ветку `master`.
+1. Создать репозиторий на GitHub и запушить ветку `main`.
 2. Settings → Pages → Source: **GitHub Actions**.
 3. Проверить `base` в `astro.config.mjs`:
    - репозиторий `adm-dx.github.io` → `base: '/'` (так настроено сейчас);
