@@ -1,0 +1,36 @@
+name: CI
+
+# Гоняется на каждый pull request в main и на ветках, которые ещё не в PR.
+# Этот workflow — то, что main-2 требует как status check: пока он красный,
+# пул-реквест влить нельзя.
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches-ignore: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Типы и шаблоны: ловит рассинхрон между resume.en.ts и resume.ru.ts.
+      - run: npx astro check
+
+      - run: npm run build
