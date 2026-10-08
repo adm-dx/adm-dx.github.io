@@ -18,8 +18,13 @@ export const resumeEn: ResumeData = {
     ],
     // Почты здесь нет намеренно: страница публичная и её собирают спам-боты.
     // Адрес остаётся в Resume.pdf — туда боты лезут редко.
-    // TODO: добавить Telegram и LinkedIn, когда будут ники.
     contacts: [
+      {
+        label: '@adm_dx',
+        href: 'https://t.me/adm_dx',
+        icon: 'telegram',
+        note: 'preferred',
+      },
       {
         label: 'github.com/adm-dx',
         href: 'https://github.com/adm-dx',
