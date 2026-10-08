@@ -43,7 +43,7 @@ remote из Сербии). Публичная страница, которую �
 - [x] `public/Resume.pdf`
 - [x] `public/favicon.svg`
 - [x] фото в `src/assets/roman-miller.jpg` + `<Image>` из `astro:assets`
-- [ ] `public/og.png` — карточка для соцсетей
+- [x] `public/og.png` — карточка 1200×630, скрипт `npm run og`
 
 ### Этап 5 — деплой
 - [x] `.github/workflows/deploy.yml`
