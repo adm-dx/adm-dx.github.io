@@ -1,6 +1,8 @@
 ---
+import { Image } from 'astro:assets';
 import type { ResumeData } from '../data/types';
 import { withBase } from '../lib/url';
+import photo from '../assets/roman-miller.jpg';
 import Icon from './Icon.astro';
 import ThemeToggle from './ThemeToggle.astro';
 
@@ -13,12 +15,6 @@ interface Props {
 
 const { data, otherLangPath, otherLangCode } = Astro.props;
 const { profile, ui } = data;
-
-// TODO: заменить заглушку на <Image> из astro:assets, когда пользователь пришлёт фото.
-const initials = profile.name
-  .split(' ')
-  .map((part) => part[0])
-  .join('');
 ---
 
 <header class="hero">
@@ -30,7 +26,15 @@ const initials = profile.name
   </nav>
 
   <div class="identity">
-    <div class="avatar" aria-hidden="true">{initials}</div>
+    <Image
+      class="avatar"
+      src={photo}
+      alt={profile.name}
+      width={96}
+      height={96}
+      densities={[1, 2]}
+      loading="eager"
+    />
 
     <div class="who">
       <h1>{profile.name}</h1>
@@ -101,18 +105,13 @@ const initials = profile.name
   }
 
   .avatar {
-    display: grid;
-    place-items: center;
     flex: none;
     width: 5rem;
     height: 5rem;
     border: 1px solid var(--border);
     border-radius: 50%;
     background: var(--chip-bg);
-    color: var(--text-faint);
-    font-size: 1.5rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
+    object-fit: cover;
   }
 
   h1 {
@@ -207,7 +206,6 @@ const initials = profile.name
     .avatar {
       width: 4rem;
       height: 4rem;
-      font-size: 1.25rem;
     }
   }
 </style>

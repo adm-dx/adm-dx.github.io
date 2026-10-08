@@ -42,7 +42,7 @@ remote из Сербии). Публичная страница, которую �
 ### Этап 4 — ассеты
 - [x] `public/Resume.pdf`
 - [x] `public/favicon.svg`
-- [ ] фото в `src/assets/` + `<Image>` из `astro:assets` — **ждём файл от пользователя**
+- [x] фото в `src/assets/roman-miller.jpg` + `<Image>` из `astro:assets`
 - [ ] `public/og.png` — карточка для соцсетей
 
 ### Этап 5 — деплой
@@ -63,7 +63,7 @@ remote из Сербии). Публичная страница, которую �
 1. **Имя GitHub-репозитория.** Сейчас в конфиге заложен вариант user-site
    (`adm-dx.github.io`, `base: '/'`). Если репо будет называться `resume`, нужно
    `base: '/resume/'` — в `astro.config.mjs` оставлен комментарий.
-2. **Фото** — квадрат от 800×800.
+2. ~~**Фото**~~ Готово: `src/assets/roman-miller.jpg`, 1000×1000.
 3. ~~**Expense Tracker** — ссылка на репо, демо, описание, стек.~~ Готово:
    github.com/adm-dx/expense-tracker, стек и описание вытащены из README.
    Живого демо у проекта нет — если появится, добавить поле `demo` в `projects`.
