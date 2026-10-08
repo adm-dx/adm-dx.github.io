@@ -59,6 +59,21 @@ public/           Resume.pdf, favicon.svg, robots.txt
 Чтобы при тёмной теме не мигало белым, начальное значение `data-theme` ставит маленький
 инлайн-скрипт в `<head>` (`src/layouts/Base.astro`) — до первой отрисовки.
 
+## Как вносить правки
+
+Ветка `main` защищена: прямой пуш запрещён всем, включая владельца репозитория.
+Любое изменение идёт через pull request с зелёным CI.
+
+```bash
+git switch -c update-resume
+# правки
+git commit -am "Describe the change"
+git push -u origin update-resume
+```
+
+Дальше открыть pull request на GitHub, дождаться чека `check` (`astro check` + сборка,
+см. `.github/workflows/ci.yml`) и влить. После мерджа в `main` отрабатывает деплой.
+
 ## Деплой
 
 Workflow `.github/workflows/deploy.yml` собирает сайт и публикует на GitHub Pages при каждом
