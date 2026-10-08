@@ -1,0 +1,104 @@
+---
+import type { Project, UiStrings } from '../data/types';
+import Icon from './Icon.astro';
+
+interface Props {
+  project: Project;
+  ui: UiStrings;
+}
+
+const { project, ui } = Astro.props;
+---
+
+<article class="project">
+  <h3>{project.name}</h3>
+  <p class="description">{project.description}</p>
+
+  {
+    project.stack.length > 0 && (
+      <ul class="stack">
+        {project.stack.map((tech) => (
+          <li>{tech}</li>
+        ))}
+      </ul>
+    )
+  }
+
+  {
+    (project.repo || project.demo) && (
+      <p class="links">
+        {project.repo && (
+          <a href={project.repo} rel="noopener">
+            <Icon name="github" />
+            {ui.projectRepo}
+          </a>
+        )}
+        {project.demo && (
+          <a href={project.demo} rel="noopener">
+            <Icon name="link" />
+            {ui.projectDemo}
+          </a>
+        )}
+      </p>
+    )
+  }
+</article>
+
+<style>
+  .project {
+    padding: 1.1rem 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+
+  .project + .project {
+    margin-top: 1rem;
+  }
+
+  h3 {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .description {
+    margin: 0.4rem 0 0;
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+  }
+
+  .stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    margin-top: 0.75rem;
+  }
+
+  .stack li {
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    background: var(--chip-bg);
+    color: var(--text-muted);
+    font-size: 0.8125rem;
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 0.875rem 0 0;
+    font-size: 0.9375rem;
+  }
+
+  .links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-decoration: none;
+  }
+
+  .links a:hover {
+    text-decoration: underline;
+  }
+</style>

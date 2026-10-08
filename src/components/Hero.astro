@@ -1,0 +1,213 @@
+---
+import type { ResumeData } from '../data/types';
+import { withBase } from '../lib/url';
+import Icon from './Icon.astro';
+import ThemeToggle from './ThemeToggle.astro';
+
+interface Props {
+  data: ResumeData;
+  /** Путь другой языковой версии относительно base: '' или 'ru/'. */
+  otherLangPath: string;
+  otherLangCode: string;
+}
+
+const { data, otherLangPath, otherLangCode } = Astro.props;
+const { profile, ui } = data;
+
+// TODO: заменить заглушку на <Image> из astro:assets, когда пользователь пришлёт фото.
+const initials = profile.name
+  .split(' ')
+  .map((part) => part[0])
+  .join('');
+---
+
+<header class="hero">
+  <nav class="toolbar no-print" aria-label={ui.switchLanguage}>
+    <a class="lang" href={withBase(otherLangPath)} hreflang={otherLangCode} lang={otherLangCode}>
+      {ui.switchLanguage}
+    </a>
+    <ThemeToggle label={ui.toggleTheme} />
+  </nav>
+
+  <div class="identity">
+    <div class="avatar" aria-hidden="true">{initials}</div>
+
+    <div class="who">
+      <h1>{profile.name}</h1>
+      <p class="title">{profile.title}</p>
+      <p class="location">{profile.location}</p>
+    </div>
+  </div>
+
+  <ul class="contacts">
+    {
+      profile.contacts.map((contact) => (
+        <li>
+          <a href={contact.href} rel={contact.href.startsWith('http') ? 'me noopener' : undefined}>
+            <Icon name={contact.icon} />
+            {contact.label}
+          </a>
+          {contact.note && <span class="note">{contact.note}</span>}
+        </li>
+      ))
+    }
+  </ul>
+
+  <ul class="availability">
+    {profile.availability.map((line) => <li>{line}</li>)}
+  </ul>
+
+  <a class="download no-print" href={withBase('Resume.pdf')} download>
+    <Icon name="download" />
+    {ui.downloadPdf}
+  </a>
+</header>
+
+<style>
+  .hero {
+    padding-block: 2rem 2.25rem;
+  }
+
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .lang {
+    display: inline-flex;
+    align-items: center;
+    height: 2.25rem;
+    padding-inline: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    text-decoration: none;
+  }
+
+  .lang:hover {
+    border-color: var(--border-strong);
+    color: var(--text);
+  }
+
+  .identity {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .avatar {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 5rem;
+    height: 5rem;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: var(--chip-bg);
+    color: var(--text-faint);
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  h1 {
+    font-size: clamp(1.625rem, 1.2rem + 2vw, 2.25rem);
+    font-weight: 650;
+    letter-spacing: -0.015em;
+  }
+
+  .title {
+    margin: 0.25rem 0 0;
+    color: var(--accent);
+    font-size: 1.0625rem;
+    font-weight: 550;
+  }
+
+  .location {
+    margin: 0.15rem 0 0;
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+  }
+
+  .contacts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    margin-top: 1.5rem;
+    font-size: 0.9375rem;
+  }
+
+  .contacts li {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .contacts a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-decoration: none;
+  }
+
+  .contacts a:hover {
+    text-decoration: underline;
+  }
+
+  .note {
+    color: var(--text-faint);
+    font-size: 0.8125rem;
+  }
+
+  .availability {
+    margin-top: 0.875rem;
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+  }
+
+  .availability li {
+    position: relative;
+    padding-left: 1rem;
+  }
+
+  .availability li::before {
+    content: '·';
+    position: absolute;
+    left: 0.25rem;
+  }
+
+  .download {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius);
+    background: var(--accent);
+    color: var(--accent-contrast);
+    font-size: 0.9375rem;
+    font-weight: 550;
+    text-decoration: none;
+  }
+
+  .download:hover {
+    filter: brightness(1.08);
+  }
+
+  @media (max-width: 30rem) {
+    .identity {
+      gap: 1rem;
+    }
+
+    .avatar {
+      width: 4rem;
+      height: 4rem;
+      font-size: 1.25rem;
+    }
+  }
+</style>

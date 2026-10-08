@@ -1,0 +1,46 @@
+---
+interface Props {
+  title: string;
+  /** id для якоря и для aria-labelledby. */
+  id: string;
+}
+
+const { title, id } = Astro.props;
+---
+
+<section class="section" aria-labelledby={`${id}-heading`} id={id}>
+  <h2 id={`${id}-heading`}>{title}</h2>
+  <div class="body">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .section {
+    padding-block: 2.25rem;
+    border-top: 1px solid var(--border);
+  }
+
+  h2 {
+    margin-bottom: 1.25rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  @media (min-width: 56rem) {
+    /* На широком экране заголовок уходит в левую колонку, контент — в правую. */
+    .section {
+      display: grid;
+      grid-template-columns: 9.5rem 1fr;
+      gap: 2rem;
+    }
+
+    h2 {
+      margin-bottom: 0;
+      padding-top: 0.2rem;
+    }
+  }
+</style>

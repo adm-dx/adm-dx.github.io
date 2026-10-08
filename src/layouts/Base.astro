@@ -1,0 +1,111 @@
+---
+import type { ResumeData } from '../data/types';
+import { withBase, absoluteUrl } from '../lib/url';
+import '../styles/global.css';
+
+interface Props {
+  data: ResumeData;
+  /** Путь другой языковой версии относительно base: '' или 'ru/'. */
+  otherLangPath: string;
+  otherLangCode: string;
+}
+
+const { data, otherLangPath, otherLangCode } = Astro.props;
+const { profile } = data;
+
+const site = Astro.site;
+const canonical = absoluteUrl(data.path, site);
+const ogImage = absoluteUrl('og.png', site);
+
+// JSON-LD: помогает поисковикам и агрегаторам понять, что страница — визитка человека.
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.name,
+  jobTitle: profile.title,
+  email: 'adm.dx@outlook.com',
+  url: canonical,
+  sameAs: ['https://github.com/adm-dx'],
+  knowsLanguage: data.languages.map((item) => item.language),
+};
+---
+
+<!doctype html>
+<html lang={data.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{data.pageTitle}</title>
+    <meta name="description" content={data.pageDescription} />
+    <meta name="author" content={profile.name} />
+
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="en" href={absoluteUrl('', site)} />
+    <link rel="alternate" hreflang="ru" href={absoluteUrl('ru/', site)} />
+    <link rel="alternate" hreflang="x-default" href={absoluteUrl('', site)} />
+
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content={data.pageTitle} />
+    <meta property="og:description" content={data.pageDescription} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content={data.lang === 'ru' ? 'ru_RU' : 'en_US'} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href={withBase('favicon.svg')} type="image/svg+xml" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1216" media="(prefers-color-scheme: dark)" />
+
+    {/* Ставим тему до первой отрисовки, иначе при тёмной теме мигнёт белым. */}
+    <script is:inline>
+      try {
+        const stored = localStorage.getItem('theme');
+        if (stored === 'light' || stored === 'dark') {
+          document.documentElement.dataset.theme = stored;
+        }
+      } catch {
+        // localStorage недоступен — остаётся системная тема из prefers-color-scheme.
+      }
+    </script>
+
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">
+      {data.lang === 'ru' ? 'Перейти к содержимому' : 'Skip to content'}
+    </a>
+
+    <div class="wrap">
+      <slot name="hero" />
+      <main id="main">
+        <slot />
+      </main>
+      <footer class="footer">
+        <p>{data.ui.footer.replace('{year}', String(new Date().getFullYear()))}</p>
+        <p class="no-print">
+          <a href={withBase(otherLangPath)} hreflang={otherLangCode} lang={otherLangCode}>
+            {data.ui.switchLanguage}
+          </a>
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
+
+<style>
+  .footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    padding-block: 2rem 2.5rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-faint);
+    font-size: 0.875rem;
+  }
+
+  .footer p {
+    margin: 0;
+  }
+</style>

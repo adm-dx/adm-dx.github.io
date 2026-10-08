@@ -1,0 +1,149 @@
+---
+/**
+ * Вся страница резюме. Обе языковые версии (index.astro и ru/index.astro)
+ * отличаются только тем, какой объект ResumeData сюда передан.
+ */
+import type { ResumeData } from '../data/types';
+import Base from '../layouts/Base.astro';
+import Hero from './Hero.astro';
+import Section from './Section.astro';
+import JobCard from './JobCard.astro';
+import SkillGroup from './SkillGroup.astro';
+import ProjectCard from './ProjectCard.astro';
+
+interface Props {
+  data: ResumeData;
+}
+
+const { data } = Astro.props;
+const { ui } = data;
+
+// Вторая языковая версия — та, что не текущая.
+const otherLangCode = data.lang === 'en' ? 'ru' : 'en';
+const otherLangPath = data.lang === 'en' ? 'ru/' : '';
+---
+
+<Base data={data} otherLangPath={otherLangPath} otherLangCode={otherLangCode}>
+  <Hero
+    slot="hero"
+    data={data}
+    otherLangPath={otherLangPath}
+    otherLangCode={otherLangCode}
+  />
+
+  <Section id="summary" title={ui.sections.summary}>
+    {data.summary.map((paragraph) => <p>{paragraph}</p>)}
+  </Section>
+
+  <Section id="experience" title={data.experienceHeading}>
+    {data.jobs.map((job) => <JobCard job={job} />)}
+  </Section>
+
+  {
+    data.projects.length > 0 && (
+      <Section id="projects" title={ui.sections.projects}>
+        {data.projects.map((project) => (
+          <ProjectCard project={project} ui={ui} />
+        ))}
+      </Section>
+    )
+  }
+
+  <Section id="skills" title={ui.sections.skills}>
+    {data.skills.map((group) => <SkillGroup group={group} />)}
+  </Section>
+
+  <Section id="education" title={ui.sections.education}>
+    <ul class="education">
+      {
+        data.education.map((entry) => (
+          <li>
+            <span class="institution">{entry.institution}</span>
+            <span class="qualification">{entry.qualification}</span>
+            <span class="period">{entry.period}</span>
+          </li>
+        ))
+      }
+    </ul>
+    {data.courses && <p class="courses">{data.courses}</p>}
+  </Section>
+
+  <Section id="languages" title={ui.sections.languages}>
+    <ul class="languages">
+      {
+        data.languages.map((item) => (
+          <li>
+            <span class="language">{item.language}</span>
+            <span class="level">{item.level}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+</Base>
+
+<style>
+  .education {
+    display: grid;
+    gap: 0.875rem;
+  }
+
+  .education li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 0.5rem;
+  }
+
+  .institution {
+    font-weight: 550;
+  }
+
+  .qualification {
+    color: var(--text-muted);
+  }
+
+  .qualification::before {
+    content: '— ';
+  }
+
+  .period {
+    color: var(--text-faint);
+    font-size: 0.875rem;
+  }
+
+  .period::before {
+    content: '· ';
+  }
+
+  .courses {
+    margin-top: 1rem;
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+  }
+
+  .languages {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 2rem;
+  }
+
+  .languages li {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+  }
+
+  .language {
+    font-weight: 550;
+  }
+
+  .level {
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+  }
+
+  .level::before {
+    content: '— ';
+  }
+</style>

@@ -1,0 +1,106 @@
+---
+import type { Job } from '../data/types';
+
+interface Props {
+  job: Job;
+}
+
+const { job } = Astro.props;
+
+const meta = [job.period, job.location, job.industry].filter(Boolean);
+---
+
+<article class="job">
+  <h3>
+    <span class="company">{job.company}</span>
+    <span class="sep" aria-hidden="true"> — </span>
+    <span class="role">{job.role}</span>
+  </h3>
+
+  <p class="meta">
+    {
+      meta.map((item, index) => (
+        <>
+          {index > 0 && <span class="dot" aria-hidden="true"> · </span>}
+          <span>{item}</span>
+        </>
+      ))
+    }
+  </p>
+
+  {job.about && <p class="about">{job.about}</p>}
+
+  {
+    job.achievements.length > 0 && (
+      <ul class="achievements">
+        {job.achievements.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    )
+  }
+</article>
+
+<style>
+  .job + .job {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  h3 {
+    font-size: 1.0625rem;
+    font-weight: 600;
+  }
+
+  .company {
+    color: var(--text);
+  }
+
+  .sep,
+  .role {
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .meta {
+    margin: 0.3rem 0 0;
+    color: var(--text-faint);
+    font-size: 0.875rem;
+  }
+
+  .about {
+    margin: 0.75rem 0 0;
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+  }
+
+  .achievements {
+    margin-top: 0.875rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .achievements li {
+    position: relative;
+    padding-left: 1.1rem;
+  }
+
+  .achievements li::before {
+    content: '';
+    position: absolute;
+    top: 0.6em;
+    left: 0.15rem;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--border-strong);
+  }
+
+  /* Не разрывать карточку между страницами при печати. */
+  @media print {
+    .job {
+      break-inside: avoid;
+    }
+  }
+</style>

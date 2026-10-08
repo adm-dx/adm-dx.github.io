@@ -1,0 +1,197 @@
+/*
+ * Палитра задаётся токенами на :root и переопределяется в двух местах:
+ *   1) @media (prefers-color-scheme: dark) — системная настройка,
+ *      но только если пользователь не выбрал тему вручную (:root:not([data-theme='light']));
+ *   2) :root[data-theme='dark'] — явный выбор пользователя, перебивает систему.
+ */
+
+:root {
+  --bg: #ffffff;
+  --bg-subtle: #f6f7f9;
+  --surface: #ffffff;
+  --border: #e3e6ea;
+  --border-strong: #cdd3da;
+  --text: #15191e;
+  --text-muted: #5b646f;
+  --text-faint: #828c98;
+  --accent: #1f5fa9;
+  --accent-contrast: #ffffff;
+  --chip-bg: #eef1f5;
+  --shadow: 0 1px 2px rgb(16 24 40 / 6%), 0 1px 3px rgb(16 24 40 / 4%);
+
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    'Noto Sans', sans-serif;
+  --measure: 48rem;
+  --gutter: 1rem;
+  --radius: 10px;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #0f1216;
+    --bg-subtle: #151920;
+    --surface: #161b22;
+    --border: #262d37;
+    --border-strong: #39424f;
+    --text: #e6eaf0;
+    --text-muted: #a3adba;
+    --text-faint: #7a8593;
+    --accent: #6aa6e8;
+    --accent-contrast: #0f1216;
+    --chip-bg: #1d232c;
+    --shadow: none;
+
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme='dark'] {
+  --bg: #0f1216;
+  --bg-subtle: #151920;
+  --surface: #161b22;
+  --border: #262d37;
+  --border-strong: #39424f;
+  --text: #e6eaf0;
+  --text-muted: #a3adba;
+  --text-faint: #7a8593;
+  --accent: #6aa6e8;
+  --accent-contrast: #0f1216;
+  --chip-bg: #1d232c;
+  --shadow: none;
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0 0 0.75em;
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Общая колонка контента. */
+.wrap {
+  width: 100%;
+  max-width: var(--measure);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Скрыто визуально, но доступно скринридерам. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Ссылка «к содержимому» для клавиатурной навигации. */
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  padding: 0.5rem 1rem;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  transform: translateY(-110%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Печать и «сохранить как PDF» из браузера. */
+@media print {
+  :root {
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --text: #000000;
+    --text-muted: #333333;
+    --accent: #000000;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    font-size: 11pt;
+  }
+
+  a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.85em;
+    color: #555555;
+  }
+}
