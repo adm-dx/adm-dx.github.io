@@ -114,6 +114,21 @@ export const resumeRu: ResumeData = {
 
   projects: [
     {
+      name: 'Payture API Tests',
+      description:
+        'Пет-проект: автотесты API песочницы платёжного шлюза Payture — методы Pay, Block, Charge, Unblock, Refund и GetState: позитивные сценарии, валидация параметров, ошибки доступа, повторные заказы. Тесты построены на тонком клиенте с билдерами запросов и проверками XML-ответов; подтверждённые дефекты API помечены как известные баги и вынесены в отдельную Gradle-задачу. В Allure-отчёте каждый вызов API — отдельный шаг с приложенными запросом и ответом.',
+      stack: ['Java', 'JUnit 5', 'REST Assured', 'Allure', 'Gradle'],
+      repo: 'https://github.com/adm-dx/PaytureAPITests',
+    },
+    {
+      name: 'Weather App',
+      description:
+        'Пет-проект: веб-приложение, которое показывает текущую погоду по геолокации; если геолокация недоступна — поиск по городу, плюс переключение °C/°F. Чистый JavaScript на ES-модулях без сборки, данные из бесключевых API Open-Meteo и BigDataCloud; хостинг на GitHub Pages.',
+      stack: ['JavaScript', 'HTML', 'CSS', 'Open-Meteo API', 'GitHub Pages'],
+      repo: 'https://github.com/adm-dx/WeatherApp',
+      demo: 'https://adm-dx.github.io/WeatherApp/',
+    },
+    {
       name: 'Expense Tracker',
       description:
         'Пет-проект: приложение для учёта личных расходов. Монорепозиторий на npm workspaces — веб-клиент на Next.js и API на NestJS поверх PostgreSQL, с общими пакетами типов и конфигов. Площадка для практики в фулстек-разработке и автоматизации тестирования вне работы.',

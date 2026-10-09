@@ -114,6 +114,21 @@ export const resumeEn: ResumeData = {
 
   projects: [
     {
+      name: 'Payture API Tests',
+      description:
+        'Pet project: an automated API test suite for the Payture payment gateway sandbox, covering Pay, Block, Charge, Unblock, Refund and GetState — positive flows, parameter validation, access errors and duplicate orders. Tests are built on a thin client with request builders and XML response assertions; confirmed API defects are tagged as known bugs and run as a separate Gradle task. Allure reports show every API call as a step with the request and response attached.',
+      stack: ['Java', 'JUnit 5', 'REST Assured', 'Allure', 'Gradle'],
+      repo: 'https://github.com/adm-dx/PaytureAPITests',
+    },
+    {
+      name: 'Weather App',
+      description:
+        'Pet project: a web app that shows the current weather for your location, with city search when geolocation is unavailable and a Celsius/Fahrenheit toggle. Plain JavaScript modules with no build step, using the keyless Open-Meteo and BigDataCloud APIs; hosted on GitHub Pages.',
+      stack: ['JavaScript', 'HTML', 'CSS', 'Open-Meteo API', 'GitHub Pages'],
+      repo: 'https://github.com/adm-dx/WeatherApp',
+      demo: 'https://adm-dx.github.io/WeatherApp/',
+    },
+    {
       name: 'Expense Tracker',
       description:
         'Pet project: a personal expense tracking application, built as an npm-workspaces monorepo — a Next.js web app and a NestJS API over PostgreSQL, with shared type and config packages. A sandbox for practising full-stack development and test automation outside of work.',
